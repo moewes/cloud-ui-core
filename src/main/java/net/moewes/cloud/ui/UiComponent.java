@@ -19,6 +19,13 @@ public class UiComponent {
   private UiBinder binder;
   private Function<String, Void> eventHandler;
 
+  public UiComponent() {
+    this.tag = "div";
+    this.id = this.getClass().getName();
+    uiElement = new UiElement(tag);
+    uiElement.setId(this.getId());
+  }
+
   public UiComponent(String tag) {
     this.tag = tag;
     this.id = this.getClass().getName();
@@ -99,7 +106,7 @@ public class UiComponent {
     }
   }
 
-  protected void addEventListener(String event, Function<String, Void> function) {
+  public void addEventListener(String event, Function<String, Void> function) {
     this.eventHandler = function;
     getElement().addEvent(event);
   }
