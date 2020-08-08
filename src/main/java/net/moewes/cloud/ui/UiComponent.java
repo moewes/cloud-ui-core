@@ -3,6 +3,7 @@ package net.moewes.cloud.ui;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +18,7 @@ public class UiComponent {
   private List<UiComponent> children;
   private UiElement uiElement;
   private UiBinder binder;
-  private Function<String, Void> eventHandler;
+  private Consumer<String> eventHandler;
 
   public UiComponent() {
     this.tag = "div";
@@ -106,14 +107,14 @@ public class UiComponent {
     }
   }
 
-  public void addEventListener(String event, Function<String, Void> function) {
+  public void addEventListener(String event, Consumer<String> function) {
     this.eventHandler = function;
     getElement().addEvent(event);
   }
 
   public void handleEvent(String click) {
     if (eventHandler != null) {
-      eventHandler.apply(click);
+      eventHandler.accept(click);
     }
   }
 }

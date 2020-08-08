@@ -8,25 +8,28 @@ public class UiBinder {
   private Supplier<?> getter;
   private Consumer<Object> setter;
   private UiComponent component;
-  private Object model;
 
-  public void bind(UiComponent component, Object model, Supplier<?> getter,
+  public void bind(UiComponent component, Supplier<?> getter,
       Consumer<Object> setter) {
 
     this.getter = getter;
     this.setter = setter;
-    this.model = model;
     this.component = component;
     component.bind(this);
   }
 
   public void setValue() {
 
-    Object o = getter.get();
-    component.setValue(o.toString());
+    if (getter!=null) {
+      Object o = getter.get();
+      component.setValue(o.toString());
+    }
   }
 
   public void getValue() {
-    setter.accept(component.getValue());
+
+    if (setter!=null) {
+      setter.accept(component.getValue());
+    }
   }
 }
