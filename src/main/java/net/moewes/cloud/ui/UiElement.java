@@ -1,9 +1,9 @@
 package net.moewes.cloud.ui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +17,7 @@ public class UiElement {
   private String innerHtml;
   private List<UiElement> children;
   private List<String> events;
-  private Map<String, String> attributes;
+  private Set<UiElementAttribute> attributes;
 
   public UiElement(String tag) {
     this.tag = tag;
@@ -41,8 +41,8 @@ public class UiElement {
 
   public void setAttribute(String key, String value) {
     if (attributes == null) {
-      attributes = new HashMap<>();
+      attributes = new HashSet<>();
     }
-    attributes.put(key, value);
+    attributes.add(new UiElementAttribute(key, value));
   }
 }
