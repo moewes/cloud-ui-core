@@ -13,18 +13,14 @@ public class UiComponent {
 
   private final String tag;
   @Getter
-  @Setter
   private String id;
-  private List<UiComponent> children;
+  private List<UiComponent> children = new ArrayList<>();
   private UiElement uiElement;
   private UiBinder binder;
   private Consumer<String> eventHandler;
 
   public UiComponent() {
-    this.tag = "div";
-    this.id = this.getClass().getName();
-    uiElement = new UiElement(tag);
-    uiElement.setId(this.getId());
+    this("div");
   }
 
   public UiComponent(String tag) {
@@ -43,13 +39,14 @@ public class UiComponent {
   }
 
   public void add(UiComponent component) {
-    if (children == null) {
-      children = new ArrayList<>();
-    }
     children.add(component);
     component.setId(getId() + "_" + children.size());
-    component.getElement().setId(component.getId());
     getElement().add(component.getElement());
+  }
+  
+  public void remove(UiComponent component) {
+    children.remove(component);
+    getElement().remove(component.getElement());
   }
 
   public UiElement getElement() {
@@ -116,5 +113,14 @@ public class UiComponent {
     if (eventHandler != null) {
       eventHandler.accept(click);
     }
+  }
+
+  private void setId(String id) {
+    this.id = id;
+    getElement().setId(getId());
+
+    children.forEach(child -> {
+      child.setId(getId()+child.getId());
+    });
   }
 }

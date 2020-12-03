@@ -24,12 +24,11 @@ public class UiElement {
     this.id = this.getClass().getName();
   }
 
-  public void add(UiElement component) {
+  public void add(UiElement element) {
     if (children == null) {
       children = new ArrayList<>();
     }
-    children.add(component);
-    //component.setId(getId() + "_" + children.size());
+    children.add(element);
   }
 
   public void addEvent(String event) {
@@ -37,6 +36,12 @@ public class UiElement {
       events = new ArrayList<>();
     }
     events.add(event);
+  }
+
+  public void remove(UiElement element) {
+    if (children!=null) {
+      children.remove(element);
+    }
   }
 
   public void setAttribute(String key, String value) {

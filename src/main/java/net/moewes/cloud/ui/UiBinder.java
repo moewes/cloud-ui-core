@@ -6,11 +6,11 @@ import java.util.function.Supplier;
 public class UiBinder {
 
   private Supplier<?> getter;
-  private Consumer<Object> setter;
+  private Consumer<String> setter;
   private UiComponent component;
 
   public void bind(UiComponent component, Supplier<?> getter,
-      Consumer<Object> setter) {
+      Consumer<String> setter) {
 
     this.getter = getter;
     this.setter = setter;
