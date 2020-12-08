@@ -115,7 +115,7 @@ public class UiComponent {
     }
   }
 
-  private void setId(String id) {
+  public void setId(String id) {
     this.id = id;
     getElement().setId(getId());
 
