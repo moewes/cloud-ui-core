@@ -2,29 +2,40 @@ package net.moewes.cloud.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
 import lombok.Getter;
 
 
+/**
+ * represents a node/element
+ */
 public class UiComponent {
 
-    private final String tag;
     @Getter
     private String id;
-    private List<UiComponent> children = new ArrayList<>();
-    private UiElement uiElement;
+    private final List<UiComponent> children = new ArrayList<>();
+    private final UiElement uiElement;
     private UiBinder binder;
-    private Consumer<String> eventHandler;
+    private final Map<String, Consumer<UiEvent>> eventHandlerList = new HashMap<>();
 
+    /**
+     * constructor creates a div
+     */
     public UiComponent() {
         this("div");
     }
 
+    /**
+     * default constructor
+     *
+     * @param tag html element or web component
+     */
     public UiComponent(String tag) {
-        this.tag = tag;
         this.id = this.getClass().getName();
         uiElement = new UiElement(tag);
         uiElement.setId(this.getId());
@@ -38,30 +49,47 @@ public class UiComponent {
         binder = null;
     }
 
+    /**
+     * adds a child element
+     *
+     * @param component child component
+     */
     public void add(UiComponent component) {
         children.add(component);
         component.setId(getId() + "_" + children.size());
         getElement().add(component.getElement());
     }
 
+    /**
+     * adds multiple child components
+     *
+     * @param components child components
+     */
     public void add(UiComponent... components) {
         Arrays.stream(components).forEach(this::add);
     }
 
+    /**
+     * remove a child component
+     *
+     * @param component the component to remove
+     */
     public void remove(UiComponent component) {
         children.remove(component);
         getElement().remove(component.getElement());
     }
 
+    /**
+     * @return UiElement of the component
+     */
     public UiElement getElement() {
         return uiElement;
     }
 
     public UiElement render() {
 
-        if (children != null) {
-            children.stream().forEach(UiComponent::render);
-        }
+        children.forEach(UiComponent::render);
+
         getValuesFromBinder();
         if (uiElement.getValue() == null) {
             uiElement.setValue(getEmptyValue());
@@ -102,7 +130,7 @@ public class UiComponent {
         if (this.getId().equals(id)) {
             System.out.println("found id " + id);
             return Optional.of(this);
-        } else if (children != null) {
+        } else {
             for (UiComponent item : children) {
                 Optional<UiComponent> x = item.getComponentWithId(id);
                 if (x.isPresent()) {
@@ -110,19 +138,20 @@ public class UiComponent {
                 }
             }
             return Optional.empty();
-        } else {
-            return Optional.empty();
         }
     }
 
-    public void addEventListener(String event, Consumer<String> function) {
-        this.eventHandler = function;
+    public <T extends UiEvent> void addEventListener(String event, Consumer<T> function) {
+
+        eventHandlerList.put(event, (Consumer<UiEvent>) function);
         getElement().addEvent(event);
     }
 
-    public void handleEvent(String click) {
-        if (eventHandler != null) {
-            eventHandler.accept(click);
+    public void handleEvent(UiEvent event) {
+
+        Consumer<UiEvent> uiEventConsumer = eventHandlerList.get(event.getEventname());
+        if (uiEventConsumer != null) {
+            uiEventConsumer.accept(event);
         }
     }
 
@@ -130,8 +159,6 @@ public class UiComponent {
         this.id = id;
         getElement().setId(getId());
 
-        children.forEach(child -> {
-            child.setId(getId() + child.getId());
-        });
+        children.forEach(child -> child.setId(getId() + child.getId()));
     }
 }
