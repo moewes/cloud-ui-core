@@ -1,4 +1,4 @@
-package net.moewes.cloud.ui;
+package net.moewes.cloudui;
 
 import java.util.Objects;
 import lombok.AllArgsConstructor;

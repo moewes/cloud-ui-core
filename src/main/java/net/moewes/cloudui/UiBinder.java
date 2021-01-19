@@ -1,4 +1,4 @@
-package net.moewes.cloud.ui;
+package net.moewes.cloudui;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;

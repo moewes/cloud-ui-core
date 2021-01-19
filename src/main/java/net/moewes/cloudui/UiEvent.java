@@ -1,4 +1,4 @@
-package net.moewes.cloud.ui;
+package net.moewes.cloudui;
 
 import java.util.Map;
 import java.util.Optional;

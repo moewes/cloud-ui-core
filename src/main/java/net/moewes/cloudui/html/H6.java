@@ -1,6 +1,6 @@
-package net.moewes.cloud.ui.html;
+package net.moewes.cloudui.html;
 
-import net.moewes.cloud.ui.UiComponent;
+import net.moewes.cloudui.UiComponent;
 
 @SuppressWarnings("unused")
 public class H6 extends UiComponent {

@@ -1,16 +1,16 @@
-package net.moewes.cloud.ui.html;
+package net.moewes.cloudui.html;
 
-import net.moewes.cloud.ui.UiComponent;
+import net.moewes.cloudui.UiComponent;
 
 @SuppressWarnings("unused")
-public class H4 extends UiComponent {
+public class Label extends UiComponent {
 
-    public H4() {
+    public Label() {
         this("");
     }
 
-    public H4(String text) {
-        super("h4");
+    public Label(String text) {
+        super("label");
         getElement().setInnerHtml(text);
     }
 

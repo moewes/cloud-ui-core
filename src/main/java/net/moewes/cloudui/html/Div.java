@@ -1,6 +1,6 @@
-package net.moewes.cloud.ui.html;
+package net.moewes.cloudui.html;
 
-import net.moewes.cloud.ui.UiComponent;
+import net.moewes.cloudui.UiComponent;
 
 public class Div extends UiComponent {
 
