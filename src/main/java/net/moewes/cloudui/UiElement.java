@@ -16,10 +16,9 @@ public class UiElement {
     private String id;
     private String value;
     private boolean hasInput;
-    private String valueAttribute; // FIXME
     private String innerHtml;
     private List<UiElement> children;
-    private List<String> events;
+    private List<UiEventDefinition> events;
     private Set<UiElementAttribute> attributes;
     private Set<UiElementAttribute> properties;
 
@@ -45,7 +44,7 @@ public class UiElement {
         children.add(element);
     }
 
-    public void addEvent(String event) {
+    public void addEvent(UiEventDefinition event) {
         if (events == null) {
             events = new ArrayList<>();
         }

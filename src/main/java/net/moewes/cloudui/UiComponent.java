@@ -141,10 +141,11 @@ public class UiComponent {
         }
     }
 
-    public <T extends UiEvent> void addEventListener(String event, Consumer<T> function) {
+    public void addEventListener(String event, Consumer<UiEvent> function) {
 
-        eventHandlerList.put(event, (Consumer<UiEvent>) function);
-        getElement().addEvent(event);
+        UiEventDefinition eventDefinition = UiEventDefinition.builder().eventName(event).attributeMappings(null).build();
+
+        registerEvenrHandler(function, eventDefinition);
     }
 
     public void handleEvent(UiEvent event) {
@@ -160,5 +161,10 @@ public class UiComponent {
         getElement().setId(getId());
 
         children.forEach(child -> child.setId(getId() + child.getId()));
+    }
+
+    protected void registerEvenrHandler(Consumer<UiEvent> function, UiEventDefinition eventDefinition) {
+        eventHandlerList.put(eventDefinition.getEventName(), function);
+        getElement().addEvent(eventDefinition);
     }
 }
