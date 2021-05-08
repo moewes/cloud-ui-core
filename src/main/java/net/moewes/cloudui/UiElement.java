@@ -29,7 +29,6 @@ public class UiElement {
      */
     public UiElement(String tag) {
         this.tag = tag;
-        this.id = this.getClass().getName();
     }
 
     /**

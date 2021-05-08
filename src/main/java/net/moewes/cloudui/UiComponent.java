@@ -36,7 +36,7 @@ public class UiComponent {
      * @param tag html element or web component
      */
     public UiComponent(String tag) {
-        this.id = this.getClass().getName();
+        this.id = "";
         uiElement = new UiElement(tag);
         uiElement.setId(this.getId());
     }
